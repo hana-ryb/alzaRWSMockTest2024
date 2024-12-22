@@ -1,52 +1,57 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-public class TvTest {
+public class TvTest extends BaseTest {
+
+    MainPage mainPage;
+    Cart cartPage;
+    ProductSubpage productSubpage;
+    DetailProductPage detailProductPage;
+
+
+    @BeforeEach
+    void beforeTest() {
+        mainPage = new MainPage(browser);
+        cartPage = new Cart(browser);
+        productSubpage = new ProductSubpage(browser);
+        detailProductPage = new DetailProductPage(browser);
+
+    }
 
     @Test
     void tvTest() {
-        WebDriver browser = WebDriverManager.firefoxdriver().create();
-        browser.get("https://alza.cz");
 
-        //accept cookies
-        WebElement cookiesAcceptButton = browser.findElement(By.cssSelector(".js-cookies-info-accept"));
-        cookiesAcceptButton.click();
+        mainPage.goToProductSubpage("/tv-foto-audio-video");
 
-        //click on TV, foto etc.
-        browser.findElement(By.xpath("//a[@href='/tv-foto-audio-video']")).click();
+        productSubpage.goToProduct("Televize");
 
-        //click on Televize
-        browser.findElement(By.xpath("//span[contains(text(), 'Televize')]")).click();
+        productSubpage.scrollDown();
+        productSubpage.scrollDown();
 
-        //click on nejlevnejsi
-        browser.findElement(By.xpath("//a[@href='#cenaasc']")).click();
+        detailProductPage.goToNejlevnejsi();
+        waitFor(3);
 
-        //click on the first TV
-        browser.findElement(By.cssSelector(".firstRow .btnk1")).click();
+        detailProductPage.addFirstProductToCart();
 
-        var expectedNameOfTv = browser.findElement(By.cssSelector(".firstRow .name")).getText();
+        var expectedNameOfTv = "Televize " + detailProductPage.getExpectedNameOfNejlevnejsi();
+        System.out.println(expectedNameOfTv);
 
-        var firstName = "Televize ";
-        var lastName = expectedNameOfTv;
-        var fullExpectedName = firstName + lastName;
-        System.out.println(fullExpectedName);
+        detailProductPage.goToCartNotEmpty();
 
-        //prejit do kosiku
-        browser.findElement(By.cssSelector(".header-alz-18 .header-alz-103")).click();
+        var actualNameOfTv = cartPage.getActualNameOfFirstItemInCart();
 
-        var actualNameofTv = browser.findElement(By.cssSelector(".c1 .mainItem")).getText();
+        Assertions.assertEquals(expectedNameOfTv, actualNameOfTv);
 
-        Assertions.assertEquals(fullExpectedName, actualNameofTv);
-        //click on plus
-        browser.findElement(By.cssSelector(".c2 .countPlus")).click();
+        var priceOfOne = cartPage.getPriceOfFirstItem();
+        System.out.println(priceOfOne);
 
-        var prizeOfOne = browser.findElement(By.cssSelector(".c5")).getText();
-        System.out.println(prizeOfOne);
+        cartPage.plusOneItem(0);
 
+        var priceOfTwo = cartPage.getPriceOfFirstItem();
+        System.out.println(priceOfTwo);
+
+        Assertions.assertEquals(priceOfOne * 2, priceOfTwo);
 
 
     }
