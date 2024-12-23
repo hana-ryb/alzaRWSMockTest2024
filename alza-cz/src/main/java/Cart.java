@@ -27,10 +27,4 @@ public class Cart {
         return browser.findElement(By.cssSelector(".c1 .mainItem")).getText();
     }
 
-    //String getItemName(int index) {
-      //  return browser.findElements(By.cssSelector(".c1 .mainItem")).get(index).getText();
-    //} i cant find a good selector
-
-
-
 }

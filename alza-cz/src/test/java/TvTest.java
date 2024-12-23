@@ -53,7 +53,6 @@ public class TvTest extends BaseTest {
 
         Assertions.assertEquals(priceOfOne * 2, priceOfTwo);
 
-
     }
 
 }

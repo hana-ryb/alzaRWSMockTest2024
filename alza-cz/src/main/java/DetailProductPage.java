@@ -20,8 +20,6 @@ public class DetailProductPage extends AlzaParentOperations {
         browser.findElement(By.cssSelector(".firstRow .btnk1")).click();
     }
 
-    //void checkStaleness () { return ExpectedConditions.stalenessOf(browser.findElement(By.cssSelector(".firstRow .name")).apply(browser);
-
     }
 
 

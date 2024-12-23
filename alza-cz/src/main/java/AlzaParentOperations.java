@@ -26,15 +26,10 @@ public class AlzaParentOperations {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
     }
 
-    void waitFor(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    void scrollUp() {
+        JavascriptExecutor js = (JavascriptExecutor) browser;
+
+        js.executeScript("window.scrollTo(0, 0);");
     }
-
-
-
 
 }

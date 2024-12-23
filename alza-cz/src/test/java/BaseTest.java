@@ -12,8 +12,6 @@ public class BaseTest {
         browser.manage().window().maximize();
         mainPage = new MainPage(browser);
         mainPage.acceptCookies();
-        //WebElement cookiesAcceptButton = browser.findElement(By.cssSelector(".js-cookies-info-accept"));
-       // cookiesAcceptButton.click();
 
     }
 
